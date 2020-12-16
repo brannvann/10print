@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>10 PRINT CHR$(205.5+RND(1)); : GOTO 10</title>
+</head>
+
+<body>
+	<canvas id="maze" width="1600" height="900">
+	</canvas>
+	
+	<script>
+		var c = document.getElementById("maze");
+		var ctx = c.getContext('2d');
+		var x = 0, y = 0, s=30, r = 0.5, dr = 0.01;
+		ctx.lineWidth=4;
+		ctx.strokeStyle='black';
+		ctx.font = 'bold 32px serif';
+		
+		function draw(){
+			ctx.fillStyle='white'
+			ctx.fillRect(0, 0, c.width, c.height);
+			while( y < c.height){
+				ctx.beginPath();
+				if( Math.random() > r ){
+					ctx.moveTo(x, y);
+					ctx.lineTo(x+s, y+s);
+				}
+				else {
+					ctx.moveTo(x+s, y);
+					ctx.lineTo(x, y+s);
+				}
+				ctx.closePath();
+				ctx.stroke();
+				x = x + s;
+				if(x > c.width ){
+					x = 0;
+					y = y + s;
+				}
+			}
+			x = 0;
+			y = 0; 
+			
+			ctx.fillRect(c.width/2-500, 100, 1000, 100);
+			ctx.fillStyle='black';
+			ctx.fillText("10 PRINT CHR$(205."+ r.toFixed(2).substring(2) +"+RND(1)); : GOTO 10", 70 + c.width/2-500, 160);
+			
+			r = r + dr;
+			if( ( r >= 1 ) || ( r < 0.01) )
+				dr = dr * (-1);
+		}
+		
+		setInterval( draw, 1000/4);
+			
+	</script>
+</body>
+
+</html>
